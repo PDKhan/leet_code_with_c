@@ -1,19 +1,10 @@
 bool isSubsequence(char* s, char* t) {
-    int slen = strlen(s);
-    int tlen = strlen(t);
-    int sidx = 0;
-    int tidx = 0;
+    int pos = 0;
 
-    if(slen > tlen)
-        return false;
-
-    while(sidx < slen && tidx < tlen){
-        if(s[sidx] == t[tidx]){
-            sidx++;
-            tidx++;
-        }else
-            tidx++;
+    for(int i = 0; t[i] != '\0'; i++){
+        if(t[i] == s[pos])
+            pos++;
     }
 
-    return sidx == slen;
+    return s[pos] == '\0';
 }
