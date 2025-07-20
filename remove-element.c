@@ -1,30 +1,10 @@
 int removeElement(int* nums, int numsSize, int val) {
-    int left = 0;
-    int right = numsSize - 1;
+    int pos = 0;
 
-    if(numsSize == 0)
-        return 0;
-    
-    if(numsSize == 1){
-        if(nums[0] == val)
-            return 0;
-        else
-            return 1;
+    for(int i = 0; i < numsSize; i++){
+        if(nums[i] != val)
+            nums[pos++] = nums[i];
     }
 
-    while(left < right){
-        while(left < numsSize && nums[left] != val)
-            left++;
-        
-        while(right >= 0 && nums[right] == val)
-            right--;
-
-        if(left >= right)
-            break;
-
-        nums[left] = nums[right];
-        nums[right] = val;
-    }
-
-    return left;
+    return pos;
 }
