@@ -1,37 +1,45 @@
-struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
-    struct ListNode* new_head = NULL;
-    struct ListNode* tail;
-    int sum = 0;
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* create_node(int val){
+    struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
 
-    while(l1 || l2 || sum){
-        if(l1 && l2){
-            sum += l1->val + l2->val;
+    node->val = val;
+    node->next = NULL;
+
+    return node;
+}
+
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    int carry = 0;
+    struct ListNode* head = NULL;
+    struct ListNode* tail;
+
+    while(l1 || l2 || carry){
+        if(l1){
+            carry += l1->val;
             l1 = l1->next;
-            l2 = l2->next;
-        }else if(l1){
-            sum += l1->val;
-            l1 = l1->next;
-        }else if(l2){
-            sum += l2->val;
+        }
+
+        if(l2){
+            carry += l2->val;
             l2 = l2->next;
         }
 
-        struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));
-
-        node->val = sum % 10;
-        node->next = NULL;
-
-        if(new_head == NULL){
-            new_head = node;
-
-            tail = new_head;
+        if(head == NULL){
+            head = create_node(carry % 10);
+            tail = head;
         }else{
-            tail->next = node;
+            tail->next = create_node(carry % 10);
             tail = tail->next;
         }
 
-        sum /= 10;
+        carry /= 10;
     }
 
-    return new_head;
+    return head;
 }
