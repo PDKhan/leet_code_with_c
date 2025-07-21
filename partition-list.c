@@ -1,43 +1,27 @@
 struct ListNode* partition(struct ListNode* head, int x) {
-    struct ListNode* small = NULL;
-    struct ListNode* s_tail;
-    struct ListNode* big = NULL;
-    struct ListNode* b_tail;
-    struct ListNode* curr = head;
+    struct ListNode l_dummy;
+    struct ListNode* l_tail = &l_dummy;
+    struct ListNode h_dummy;
+    struct ListNode* h_tail = &h_dummy;
+    struct ListNode* node = head;
 
-    if(head == NULL)
-        return head;
+    while(node){
+        struct ListNode* next = node->next;
 
-    while(curr){
-        struct ListNode* next = curr->next;
+        node->next = NULL;
 
-        curr->next = NULL;
-
-        if(curr->val < x){
-            if(small == NULL){
-                small = curr;
-                s_tail = small;
-            }else{
-                s_tail->next = curr;
-                s_tail = s_tail->next;
-            }
+        if(node->val < x){
+            l_tail->next = node;
+            l_tail = l_tail->next;
         }else{
-            if(big == NULL){
-                big = curr;
-                b_tail = big;
-            }else{
-                b_tail->next = curr;
-                b_tail = b_tail->next;
-            }
+            h_tail->next = node;
+            h_tail = h_tail->next;
         }
 
-        curr = next;
+        node = next;
     }
 
-    if(small == NULL)
-        return big;
+    l_tail->next = h_dummy.next;
 
-    s_tail->next = big;
-
-    return small;
+    return l_dummy.next;
 }
