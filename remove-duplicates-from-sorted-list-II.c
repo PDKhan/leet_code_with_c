@@ -1,50 +1,33 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
 struct ListNode* deleteDuplicates(struct ListNode* head) {
-    int cnt = 0;
-    struct ListNode* new_head = NULL;
-    struct ListNode* tail;
+    struct ListNode dummy;
+    dummy.next = NULL;
+    struct ListNode* tail = &dummy;
     struct ListNode* left = head;
-    struct ListNode* right;
 
-    if(head == NULL)
-        return NULL;
-    
-    right = left->next;
+    while(left){
+        int cnt = 0;
+        struct ListNode* right = left->next;
 
-    while(right){
         while(right && left->val == right->val){
-            right = right->next;
             cnt++;
+            right = right->next;
         }
-
-        if(right == NULL)
-            break;
-
+        
         if(cnt == 0){
-            if(new_head == NULL){
-                new_head = left;
-                tail = new_head;
-            }else{
-                tail->next = left;
-                tail = tail->next;
-            }
-            
-            left->next = NULL;
-        }
-
-        left = right;
-        right = right->next;
-        cnt = 0;
-    }
-
-    if(cnt == 0){
-        if(new_head == NULL){
-            new_head = left;
-            tail = new_head;
-        }else{
             tail->next = left;
             tail = tail->next;
         }
+
+        left->next = NULL;
+        left = right;
     }
 
-    return new_head;
+    return dummy.next;
 }
